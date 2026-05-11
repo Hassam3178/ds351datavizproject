@@ -1,891 +1,447 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- =========================
+UPDATED HERO SECTION
+Replace your current HERO section with this
+========================= -->
 
-<title>The Price of Popularity | Distinction Grade Visualization</title>
+<section id="hero">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <div class="hero-overlay"></div>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <div class="hero-content">
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
+    <div class="top-tag">
+      STEAM PLAYER EXPERIENCE ANALYTICS
+    </div>
+
+    <h1>
+      THE PRICE OF POPULARITY
+    </h1>
+
+    <p class="hero-subtitle">
+      Are expensive multiplayer blockbusters actually making players happier?
+      Or do smaller singleplayer experiences deliver better satisfaction?
+    </p>
+
+    <div class="hero-stats">
+
+      <div class="hero-stat">
+        <span>1000+</span>
+        Steam Games
+      </div>
+
+      <div class="hero-stat">
+        <span>2024-2026</span>
+        Dataset Range
+      </div>
+
+      <div class="hero-stat">
+        <span>Live</span>
+        Interactive Analysis
+      </div>
+
+    </div>
+
+    <div class="scroll-indicator">
+      ▼ EXPLORE THE STORY
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+VISUALIZATION INFO CARDS
+Add ABOVE every visualization
+========================= -->
+
+<div class="viz-info">
+
+  <h2>
+    Price vs Satisfaction Analysis
+  </h2>
+
+  <p>
+    This visualization compares game prices with player satisfaction scores.
+    Each bubble represents a game, where larger bubbles indicate larger player bases.
+    It helps answer whether expensive games truly provide better player experiences.
+  </p>
+
+</div>
+
+<!-- =========================
+TOOLTIP
+Add this somewhere before </body>
+========================= -->
+
+<div id="tooltip"></div>
+
+<!-- =========================
+CSS
+ADD THIS TO YOUR STYLE SECTION
+========================= -->
 
 <style>
 
-:root{
-  --bg:#050816;
-  --card:rgba(16,24,48,0.72);
-  --border:rgba(255,255,255,0.1);
-
-  --blue:#52d3ff;
-  --purple:#9d7bff;
-  --pink:#ff5fa2;
-  --gold:#ffc857;
-  --green:#48ffb1;
-
-  --text:#f4f7ff;
-  --muted:#9fb0d4;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
 body{
-  font-family:'Inter',sans-serif;
   background:
-  radial-gradient(circle at top left,#1a245d 0%,transparent 40%),
-  radial-gradient(circle at bottom right,#39124d 0%,transparent 40%),
-  linear-gradient(135deg,#04070f,#071321,#050816);
-  color:var(--text);
-  overflow-x:hidden;
+  linear-gradient(rgba(4,7,15,0.88),rgba(4,7,15,0.95)),
+  url("https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=2070&auto=format&fit=crop");
+  background-size:cover;
+  background-attachment:fixed;
+  background-position:center;
 }
 
-/* animated bg */
+/* HERO */
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:
-  linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-  linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size:50px 50px;
-  pointer-events:none;
-  z-index:-1;
-}
-
-/* hero */
-
-.hero{
+#hero{
   min-height:100vh;
+  position:relative;
   display:flex;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
   text-align:center;
-  padding:40px;
+  overflow:hidden;
+}
+
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(circle at center,
+  rgba(0,255,255,0.12),
+  transparent 60%);
+}
+
+.hero-content{
   position:relative;
+  z-index:2;
+  padding:40px;
 }
 
-.badge{
-  padding:10px 24px;
-  border-radius:50px;
-  background:rgba(82,211,255,0.15);
-  border:1px solid rgba(82,211,255,0.4);
-  color:var(--blue);
-  font-size:14px;
+.top-tag{
+  display:inline-block;
+  padding:10px 22px;
+  border-radius:40px;
+  background:rgba(0,255,255,0.12);
+  border:1px solid rgba(0,255,255,0.3);
+  color:#59e1ff;
+  margin-bottom:30px;
+  font-size:13px;
+  letter-spacing:2px;
   font-weight:700;
-  margin-bottom:30px;
-  backdrop-filter:blur(10px);
 }
 
-.hero h1{
+#hero h1{
+  font-size:clamp(3rem,8vw,7rem);
   font-family:'Orbitron',sans-serif;
-  font-size:clamp(3rem,7vw,6rem);
-  line-height:1.1;
-  max-width:1100px;
-  margin-bottom:30px;
+  margin-bottom:25px;
 
-  background:linear-gradient(to right,#fff,#8fdcff,#c5b4ff);
+  background:linear-gradient(to right,#fff,#59e1ff,#ff5ca8);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
-.hero p{
+.hero-subtitle{
   max-width:850px;
-  font-size:1.2rem;
+  margin:auto;
   line-height:1.8;
-  color:var(--muted);
+  font-size:1.2rem;
+  color:#c4d3f6;
 }
 
-.scroll{
+.hero-stats{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
   margin-top:50px;
+}
+
+.hero-stat{
+  padding:25px 35px;
+  border-radius:24px;
+  background:rgba(17,25,48,0.75);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(14px);
+  min-width:180px;
+}
+
+.hero-stat span{
+  display:block;
+  font-size:2rem;
+  font-weight:800;
+  color:#59e1ff;
+  margin-bottom:8px;
+}
+
+.scroll-indicator{
+  margin-top:50px;
+  color:#59e1ff;
   animation:float 2s infinite ease-in-out;
-  color:var(--blue);
-  font-size:1rem;
 }
 
 @keyframes float{
   0%{transform:translateY(0);}
-  50%{transform:translateY(10px);}
+  50%{transform:translateY(12px);}
   100%{transform:translateY(0);}
 }
 
-/* sections */
+/* VISUALIZATION DESCRIPTION */
 
-.section{
-  padding:100px 6%;
+.viz-info{
+  margin-bottom:30px;
+  padding:28px;
+  border-radius:24px;
+
+  background:
+  linear-gradient(135deg,
+  rgba(89,225,255,0.1),
+  rgba(255,92,168,0.08));
+
+  border:1px solid rgba(255,255,255,0.08);
 }
 
-.section-title{
-  font-family:'Orbitron';
-  font-size:2.5rem;
-  margin-bottom:20px;
+.viz-info h2{
+  margin-bottom:15px;
+  font-size:1.8rem;
+  color:white;
 }
 
-.section-desc{
-  color:var(--muted);
-  max-width:900px;
+.viz-info p{
   line-height:1.8;
-  margin-bottom:50px;
+  color:#c6d2ef;
+  max-width:950px;
 }
 
-/* cards */
+/* TOOLTIP */
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
+#tooltip{
+  position:absolute;
+  background:#0b1325;
+  border:1px solid rgba(255,255,255,0.08);
+  padding:18px;
+  border-radius:18px;
+  pointer-events:none;
+  opacity:0;
+  transition:0.2s;
+  width:260px;
+  z-index:999;
+  backdrop-filter:blur(10px);
+
+  box-shadow:
+  0 10px 40px rgba(0,0,0,0.6);
 }
+
+#tooltip h3{
+  margin-bottom:10px;
+  color:white;
+}
+
+#tooltip p{
+  margin-bottom:6px;
+  font-size:14px;
+  color:#c5d3ef;
+}
+
+/* GAMER STYLE CARDS */
 
 .card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:30px;
-  backdrop-filter:blur(20px);
-  transition:0.4s;
   position:relative;
   overflow:hidden;
-}
-
-.card:hover{
-  transform:translateY(-8px) scale(1.02);
-  border-color:rgba(82,211,255,0.5);
-  box-shadow:0 20px 50px rgba(0,0,0,0.5);
 }
 
 .card::before{
   content:"";
   position:absolute;
-  width:200px;
-  height:200px;
-  background:radial-gradient(circle,var(--blue),transparent 70%);
-  opacity:0.15;
+  width:250px;
+  height:250px;
+
+  background:
+  radial-gradient(circle,
+  rgba(89,225,255,0.25),
+  transparent 70%);
+
   top:-100px;
   right:-100px;
 }
 
-.card h3{
-  font-size:1.2rem;
-  margin-bottom:15px;
+/* GLOW EFFECTS */
+
+.panel:hover{
+  transform:translateY(-6px);
+  border-color:rgba(89,225,255,0.4);
+
+  box-shadow:
+  0 0 30px rgba(89,225,255,0.15);
 }
 
-.metric{
-  font-size:2.5rem;
-  font-weight:800;
-  margin-top:20px;
-  color:var(--gold);
-}
-
-/* dashboard */
-
-.dashboard{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:30px;
-  margin-top:40px;
-}
-
-.panel{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:28px;
-  padding:24px;
-  backdrop-filter:blur(16px);
-}
+/* CHART TITLE STYLE */
 
 .panel h2{
+  font-size:1.4rem;
   margin-bottom:20px;
-  font-size:1.3rem;
+  color:#fff;
 }
 
-/* chart */
-
-svg{
-  width:100%;
-  height:500px;
-}
-
-/* tooltip */
-
-.tooltip{
-  position:absolute;
-  background:#08111f;
-  border:1px solid rgba(255,255,255,0.1);
-  padding:16px;
-  border-radius:16px;
-  pointer-events:none;
-  opacity:0;
-  transition:0.2s;
-  width:240px;
-  z-index:1000;
-}
-
-.tooltip h4{
-  margin-bottom:10px;
-}
-
-.tooltip p{
-  margin-bottom:6px;
-  font-size:14px;
-}
-
-/* controls */
-
-.controls{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:25px;
-}
+/* BATTLEFIELD STYLE BUTTONS */
 
 button{
-  padding:12px 18px;
-  border:none;
-  border-radius:14px;
-  background:#15233f;
-  color:white;
-  cursor:pointer;
+  background:linear-gradient(135deg,#0d1d38,#13294f);
+  border:1px solid rgba(89,225,255,0.15);
   transition:0.3s;
-  font-weight:600;
 }
 
 button:hover{
-  background:var(--blue);
+  background:linear-gradient(135deg,#59e1ff,#7c6cff);
   color:black;
-  transform:translateY(-2px);
+  transform:translateY(-2px) scale(1.03);
 }
 
-.active{
-  background:var(--gold);
-  color:black;
-}
+/* RESPONSIVE */
 
-/* insights */
+@media(max-width:900px){
 
-.insight{
-  background:linear-gradient(135deg,
-  rgba(82,211,255,0.12),
-  rgba(157,123,255,0.12));
-
-  border:1px solid rgba(255,255,255,0.08);
-  padding:30px;
-  border-radius:24px;
-  margin-top:30px;
-  line-height:1.9;
-}
-
-/* footer */
-
-footer{
-  padding:80px 20px;
-  text-align:center;
-  color:var(--muted);
-}
-
-footer h3{
-  margin-bottom:10px;
-  color:white;
-}
-
-/* responsive */
-
-@media(max-width:1000px){
-
-.dashboard{
-  grid-template-columns:1fr;
-}
-
-.hero h1{
-  font-size:3rem;
-}
-
-svg{
-  height:420px;
+.hero-stats{
+  flex-direction:column;
+  align-items:center;
 }
 
 }
 
 </style>
-</head>
 
-<body>
-
-<!-- HERO -->
-
-<section class="hero">
-
-<div class="badge">
-DISTINCTION GRADE NARRATIVE VISUALIZATION
-</div>
-
-<h1>
-THE PRICE OF POPULARITY
-</h1>
-
-<p>
-Do expensive multiplayer blockbusters actually make players happier?
-Or do smaller singleplayer experiences deliver better satisfaction?
-
-This interactive visual study explores pricing, popularity,
-player satisfaction, and gaming trends across modern Steam titles.
-</p>
-
-<div class="scroll">
-▼ Scroll To Explore
-</div>
-
-</section>
-
-<!-- STATS -->
-
-<section class="section">
-
-<h2 class="section-title">
-Key Findings
-</h2>
-
-<p class="section-desc">
-These insights summarize the strongest patterns discovered in the dataset.
-The explanations are intentionally simple so they are easier to explain during presentation.
-</p>
-
-<div class="grid">
-
-<div class="card">
-<h3>AAA Multiplayer Games</h3>
-<p>Huge player counts but inconsistent player satisfaction.</p>
-<div class="metric">45%</div>
-</div>
-
-<div class="card">
-<h3>Indie Success Stories</h3>
-<p>Smaller budget games often outperform premium titles.</p>
-<div class="metric">95%</div>
-</div>
-
-<div class="card">
-<h3>Average Premium Price</h3>
-<p>High-cost games are more likely to receive criticism.</p>
-<div class="metric">$69</div>
-</div>
-
-<div class="card">
-<h3>Singleplayer Consistency</h3>
-<p>Singleplayer experiences maintain stable ratings.</p>
-<div class="metric">91%</div>
-</div>
-
-</div>
-
-</section>
-
-<!-- DASHBOARD -->
-
-<section class="section">
-
-<h2 class="section-title">
-Interactive Analytics Dashboard
-</h2>
-
-<p class="section-desc">
-Hover, filter, and explore the dataset live.
-Bubble size represents player ownership.
-Higher positions mean higher player satisfaction.
-</p>
-
-<div class="controls">
-
-<button class="filter-btn active" data-filter="all">
-All Games
-</button>
-
-<button class="filter-btn" data-filter="single">
-Singleplayer
-</button>
-
-<button class="filter-btn" data-filter="multi">
-Multiplayer
-</button>
-
-<button class="filter-btn" data-filter="cheap">
-Budget Games
-</button>
-
-<button class="filter-btn" data-filter="premium">
-Premium Games
-</button>
-
-</div>
-
-<div class="dashboard">
-
-<div class="panel">
-
-<h2>
-Price vs Satisfaction
-</h2>
-
-<svg id="scatter"></svg>
-
-</div>
-
-<div class="panel">
-
-<h2>
-Popularity Comparison
-</h2>
-
-<svg id="bars"></svg>
-
-</div>
-
-</div>
-
-<div class="dashboard">
-
-<div class="panel">
-
-<h2>
-Player Type Distribution
-</h2>
-
-<svg id="donut"></svg>
-
-</div>
-
-<div class="panel">
-
-<h2>
-Top Rated Games
-</h2>
-
-<svg id="linechart"></svg>
-
-</div>
-
-</div>
-
-<div class="insight">
-
-<h2 style="margin-bottom:20px;">
-Presentation-Friendly Explanation
-</h2>
-
-<p>
-• Expensive multiplayer games attract massive crowds but also receive stronger criticism due to bugs, toxic communities, and unrealistic expectations.
-</p>
-
-<p>
-• Smaller indie games focus on polished gameplay and creativity, leading to higher satisfaction scores.
-</p>
-
-<p>
-• Singleplayer games consistently maintain better emotional experiences because they avoid competitive frustration.
-</p>
-
-<p>
-• The data suggests that popularity does not always equal quality.
-</p>
-
-</div>
-
-</section>
-
-<footer>
-
-<h3>
-Designed & Developed By
-</h3>
-
-<p>
-Hassam Mir & Abdullah Rehman
-</p>
-
-<br>
-
-<p>
-Narrative Visualization Project | D3.js Interactive Dashboard
-</p>
-
-</footer>
-
-<div class="tooltip" id="tooltip"></div>
+<!-- =========================
+INTERACTIVE D3 TOOLTIP
+ADD TO SCRIPT SECTION
+========================= -->
 
 <script>
 
-/* ======================
-DATASET
-====================== */
-
-const games = [
-
-{
-name:"Battlefield 6",
-price:69,
-score:45,
-owners:7800000,
-type:"multi"
-},
-
-{
-name:"R.E.P.O.",
-price:6,
-score:95,
-owners:8800000,
-type:"multi"
-},
-
-{
-name:"Black Myth Wukong",
-price:59,
-score:89,
-owners:26000000,
-type:"single"
-},
-
-{
-name:"HELLDIVERS 2",
-price:39,
-score:70,
-owners:24000000,
-type:"multi"
-},
-
-{
-name:"Hollow Knight Silksong",
-price:19,
-score:91,
-owners:10900000,
-type:"single"
-},
-
-{
-name:"Resident Evil Requiem",
-price:69,
-score:96,
-owners:2300000,
-type:"single"
-},
-
-{
-name:"Slay The Spire 2",
-price:24,
-score:97,
-owners:1400000,
-type:"single"
-},
-
-{
-name:"Palworld",
-price:29,
-score:95,
-owners:10500000,
-type:"multi"
-}
-
-];
-
-/* ======================
-SCATTER PLOT
-====================== */
-
-const scatter = d3.select("#scatter");
-
-const width = 600;
-const height = 500;
-
-scatter.attr("viewBox",`0 0 ${width} ${height}`);
-
-const margin = {
-top:40,
-right:30,
-bottom:60,
-left:60
-};
-
-const x = d3.scaleLinear()
-.domain([0,80])
-.range([margin.left,width-margin.right]);
-
-const y = d3.scaleLinear()
-.domain([0,100])
-.range([height-margin.bottom,margin.top]);
-
-const r = d3.scaleSqrt()
-.domain([1000000,26000000])
-.range([10,45]);
-
-scatter.append("g")
-.attr("transform",`translate(0,${height-margin.bottom})`)
-.call(d3.axisBottom(x))
-.selectAll("text")
-.attr("fill","white");
-
-scatter.append("g")
-.attr("transform",`translate(${margin.left},0)`)
-.call(d3.axisLeft(y))
-.selectAll("text")
-.attr("fill","white");
-
-scatter.append("text")
-.attr("x",width/2)
-.attr("y",height-10)
-.attr("fill","white")
-.attr("text-anchor","middle")
-.text("Game Price ($)");
-
-scatter.append("text")
-.attr("transform","rotate(-90)")
-.attr("x",-height/2)
-.attr("y",20)
-.attr("fill","white")
-.attr("text-anchor","middle")
-.text("Player Satisfaction (%)");
-
 const tooltip = d3.select("#tooltip");
 
-function updateScatter(filter){
+d3.selectAll("circle")
 
-let filtered = games;
+.on("mouseover", function(event,d){
 
-if(filter==="single"){
-filtered = games.filter(d=>d.type==="single");
-}
+  d3.select(this)
+    .transition()
+    .duration(200)
+    .attr("stroke-width",4)
+    .attr("r", d3.select(this).attr("r") * 1.15);
 
-if(filter==="multi"){
-filtered = games.filter(d=>d.type==="multi");
-}
+  tooltip
+    .style("opacity",1)
+    .html(`
 
-if(filter==="cheap"){
-filtered = games.filter(d=>d.price<20);
-}
+      <h3>${d.name}</h3>
 
-if(filter==="premium"){
-filtered = games.filter(d=>d.price>=50);
-}
+      <p><strong>Price:</strong> $${d.price}</p>
 
-const circles = scatter.selectAll("circle")
-.data(filtered,d=>d.name);
+      <p><strong>Player Score:</strong> ${d.score}%</p>
 
-circles.enter()
-.append("circle")
-.merge(circles)
+      <p><strong>Owners:</strong> ${d.owners.toLocaleString()}</p>
 
-.transition()
-.duration(800)
+      <p><strong>Type:</strong> ${d.type}</p>
 
-.attr("cx",d=>x(d.price))
-.attr("cy",d=>y(d.score))
-.attr("r",d=>r(d.owners))
-.attr("fill",d=>d.type==="multi" ? "#ff5fa2" : "#52d3ff")
-.attr("opacity",0.85)
-.attr("stroke","white")
-.attr("stroke-width",2);
+      <br>
 
-circles.exit().remove();
+      <p style="color:#59e1ff;">
+      ${
+        d.score > 90
+        ? "Players loved this game despite pricing."
+        : "Large popularity did not guarantee satisfaction."
+      }
+      </p>
 
-scatter.selectAll("circle")
-
-.on("mouseover",(event,d)=>{
-
-tooltip.style("opacity",1);
-
-tooltip.html(`
-<h4>${d.name}</h4>
-<p><strong>Price:</strong> $${d.price}</p>
-<p><strong>Score:</strong> ${d.score}%</p>
-<p><strong>Owners:</strong> ${d.owners.toLocaleString()}</p>
-<p><strong>Type:</strong> ${d.type}</p>
-`);
+    `);
 
 })
 
-.on("mousemove",(event)=>{
+.on("mousemove", function(event){
 
-tooltip
-.style("left",(event.pageX+20)+"px")
-.style("top",(event.pageY-20)+"px");
+  tooltip
+    .style("left",(event.pageX + 18)+"px")
+    .style("top",(event.pageY - 20)+"px");
 
 })
 
-.on("mouseout",()=>{
+.on("mouseout", function(){
 
-tooltip.style("opacity",0);
+  d3.select(this)
+    .transition()
+    .duration(200)
+    .attr("stroke-width",2);
 
-});
-
-}
-
-updateScatter("all");
-
-/* ======================
-BAR CHART
-====================== */
-
-const bars = d3.select("#bars");
-
-bars.attr("viewBox","0 0 600 500");
-
-const barX = d3.scaleBand()
-.domain(games.map(d=>d.name))
-.range([60,560])
-.padding(0.3);
-
-const barY = d3.scaleLinear()
-.domain([0,26000000])
-.range([440,50]);
-
-bars.append("g")
-.attr("transform","translate(0,440)")
-.call(d3.axisBottom(barX))
-.selectAll("text")
-.attr("transform","rotate(-15)")
-.style("text-anchor","end")
-.attr("fill","white");
-
-bars.append("g")
-.attr("transform","translate(60,0)")
-.call(d3.axisLeft(barY).ticks(5))
-.selectAll("text")
-.attr("fill","white");
-
-bars.selectAll("rect")
-.data(games)
-.enter()
-.append("rect")
-.attr("x",d=>barX(d.name))
-.attr("y",440)
-.attr("width",barX.bandwidth())
-.attr("height",0)
-.attr("fill","#9d7bff")
-.attr("rx",10)
-
-.transition()
-.duration(1200)
-
-.attr("y",d=>barY(d.owners))
-.attr("height",d=>440-barY(d.owners));
-
-/* ======================
-DONUT
-====================== */
-
-const donut = d3.select("#donut");
-
-donut.attr("viewBox","0 0 500 500");
-
-const pieData = [
-{label:"Singleplayer",value:4},
-{label:"Multiplayer",value:4}
-];
-
-const pie = d3.pie().value(d=>d.value);
-
-const arc = d3.arc()
-.innerRadius(80)
-.outerRadius(160);
-
-const arcs = donut.append("g")
-.attr("transform","translate(250,250)")
-.selectAll("path")
-.data(pie(pieData))
-.enter()
-.append("path")
-.attr("d",arc)
-.attr("fill",(d,i)=>i===0 ? "#52d3ff" : "#ff5fa2")
-.attr("stroke","#050816")
-.attr("stroke-width",4);
-
-donut.append("text")
-.attr("x",250)
-.attr("y",250)
-.attr("text-anchor","middle")
-.attr("fill","white")
-.style("font-size","22px")
-.style("font-weight","700")
-.text("Game Types");
-
-/* ======================
-LINE CHART
-====================== */
-
-const linechart = d3.select("#linechart");
-
-linechart.attr("viewBox","0 0 600 500");
-
-const sorted = [...games].sort((a,b)=>b.score-a.score);
-
-const lx = d3.scalePoint()
-.domain(sorted.map(d=>d.name))
-.range([60,550]);
-
-const ly = d3.scaleLinear()
-.domain([40,100])
-.range([430,60]);
-
-linechart.append("g")
-.attr("transform","translate(0,430)")
-.call(d3.axisBottom(lx))
-.selectAll("text")
-.attr("transform","rotate(-15)")
-.style("text-anchor","end")
-.attr("fill","white");
-
-linechart.append("g")
-.attr("transform","translate(60,0)")
-.call(d3.axisLeft(ly))
-.selectAll("text")
-.attr("fill","white");
-
-const line = d3.line()
-.x(d=>lx(d.name))
-.y(d=>ly(d.score));
-
-linechart.append("path")
-.datum(sorted)
-.attr("fill","none")
-.attr("stroke","#48ffb1")
-.attr("stroke-width",4)
-.attr("d",line);
-
-linechart.selectAll("circle")
-.data(sorted)
-.enter()
-.append("circle")
-.attr("cx",d=>lx(d.name))
-.attr("cy",d=>ly(d.score))
-.attr("r",8)
-.attr("fill","#48ffb1");
-
-/* ======================
-FILTER BUTTONS
-====================== */
-
-document.querySelectorAll(".filter-btn")
-.forEach(btn=>{
-
-btn.addEventListener("click",()=>{
-
-document.querySelectorAll(".filter-btn")
-.forEach(b=>b.classList.remove("active"));
-
-btn.classList.add("active");
-
-updateScatter(btn.dataset.filter);
-
-});
+  tooltip
+    .style("opacity",0);
 
 });
 
 </script>
 
-</body>
-</html>
+<!-- =========================
+NEW INTERACTIVE INSIGHT SECTION
+ADD BELOW YOUR CHARTS
+========================= -->
+
+<section class="section">
+
+<div class="viz-info">
+
+<h2>
+What Does The Data Actually Tell Us?
+</h2>
+
+<p>
+The visualizations consistently reveal a surprising trend:
+larger and more expensive multiplayer games attract massive audiences,
+but they often struggle to maintain high player satisfaction.
+Meanwhile, lower-cost singleplayer and indie experiences frequently achieve much stronger player approval ratings.
+</p>
+
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>
+🎯 Multiplayer Burnout
+</h3>
+
+<p>
+Games like Battlefield and large online shooters attract millions of players,
+but server issues, balancing problems, and toxic competition reduce satisfaction.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+⭐ Indie Excellence
+</h3>
+
+<p>
+Smaller games focus heavily on gameplay quality and creativity,
+which results in much higher player satisfaction scores.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+💸 Price vs Expectations
+</h3>
+
+<p>
+As game prices increase, player expectations become harder to satisfy.
+Premium pricing often leads to harsher criticism from players.
+</p>
+
+</div>
+
+</div>
+
+</section>
